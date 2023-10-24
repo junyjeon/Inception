@@ -2,38 +2,37 @@ version: "3"
 services:
   nginx:
     build: ./nginx
+    networks:
+      - my-network
     ports:
       - "443:443"
     restart: always
 
   wordpress:
-    build: ./wordpress
-    depends_on:
-      - mysql
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: wordpress_user
-      WORDPRESS_DB_PASSWORD: wordpress_password
-      WORDPRESS_DB_NAME: wordpress
+    image: wordpress
+    networks:
+      - my-network
+    volumes:
+      - /home/junyojeo/data/wordpress:/var/www/html
+    restart: always
+    
+  db:
+    image: mariadb
+    networks:
+      - my-network
+    volumes:
+      - /home/junyojeo/data/db:/var/lib/mysql
+    restart: always
+
+  php-fpm:
+    build: ./php-fpm
     volumes:
       - wordpress_data:/var/www/html
     restart: always
 
-  mysql:
-    build: ./mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress_user
-      MYSQL_PASSWORD: wordpress_password
-    volumes:
-      - mysql_data:/var/lib/mysql
-    restart: always
-
 networks:
-  default:
-    name: my-network
-    external: true
+  my-network:
+    driver: bridge
 
 volumes:
   wordpress_data:
