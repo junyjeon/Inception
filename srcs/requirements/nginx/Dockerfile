@@ -11,8 +11,8 @@ RUN apt-get update && \
 COPY nginx.conf /etc/nginx/sites-available/default
 
 # SSL 인증서와 키 복사
-COPY cert.pem /etc/ssl/certs/
-COPY cert.key /etc/ssl/private/
+COPY ${CERTS_}/nginx.crt /etc/ssl/certs/
+COPY ${CERTS_}/nginx.key /etc/ssl/private/
 
 # 443 포트 열기
 EXPOSE 443

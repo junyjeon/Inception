@@ -7,11 +7,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# MariaDB 설정 파일 복사
+# MariaDB 설정 파일 복사 (필요한 경우)
 COPY my.cnf /etc/mysql/my.cnf
 
-# 초기화 스크립트 복사
-COPY init.sh /usr/local/bin/
-
-# MariaDB 실행 및 초기화
-CMD ["sh", "-c", "/usr/local/bin/init.sh && exec mysqld"]
+# MariaDB 실행
+CMD ["mysqld"]
