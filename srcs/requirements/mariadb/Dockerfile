@@ -1,5 +1,5 @@
 # Debian 기반 이미지 사용
-FROM debian:buster-slim
+FROM debian:12.2-slim
 
 # 필요한 패키지 설치
 RUN apt-get update && \
