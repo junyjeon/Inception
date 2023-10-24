@@ -1,0 +1,40 @@
+version: "3"
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "443:443"
+    restart: always
+
+  wordpress:
+    build: ./wordpress
+    depends_on:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: wordpress_user
+      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    restart: always
+
+  mysql:
+    build: ./mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress_user
+      MYSQL_PASSWORD: wordpress_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+networks:
+  default:
+    name: my-network
+    external: true
+
+volumes:
+  wordpress_data:
+  mysql_data:
