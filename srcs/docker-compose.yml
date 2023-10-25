@@ -3,7 +3,7 @@ services:
   nginx: # 웹 서버
     image: nginx
     container_name: nginx
-    depends_on: # nginx가 실행되기 전에 실행되어야 하는 서비스
+    depends_on:
       - wordpress
     build: requirements/nginx
     ports:
@@ -23,7 +23,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - wordpress-volume:/var/www/html
+      - wordpress-volume:/var/www/html/wordpress
     networks:
       - jun-network
     env_file:

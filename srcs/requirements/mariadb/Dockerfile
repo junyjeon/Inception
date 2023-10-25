@@ -18,4 +18,4 @@ RUN chmod +x /init.sh
 EXPOSE 3306
 
 # MariaDB 실행
-CMD ["/init.sh"]
+CMD ["/init.sh", "daemon off"]

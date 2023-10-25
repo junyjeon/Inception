@@ -34,4 +34,4 @@ WORKDIR /var/www/html/wordpress
 EXPOSE 9000
 
 # 컨테이너 시작 시 install.sh 스크립트 실행
-ENTRYPOINT ["sh", "/install.sh", "Daemon off;"]
+ENTRYPOINT ["sh", "/install.sh", "daemon off;"]
