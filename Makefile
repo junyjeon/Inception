@@ -1,4 +1,4 @@
-all: build
+all: build up
 
 build:
 	sudo docker build -t nginx:1.24.0 srcs/requirements/nginx

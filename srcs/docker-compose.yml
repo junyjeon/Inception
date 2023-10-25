@@ -1,24 +1,64 @@
-version: "3"
+version: "3.8"
 services:
-  nginx:
-    build: ./requirements/nginx
+  nginx: # 웹 서버
+    image: nginx
+    container_name: nginx
+    depends_on: # nginx가 실행되기 전에 실행되어야 하는 서비스
+      - wordpress
+    build: requirements/nginx
     ports:
       - "443:443"
     volumes:
-      - ./data/wordpress:/var/www/html
+      - wordpress-volume:/var/www/html/wordpress
     networks:
       - jun-network
-  wordpress:
-    build: ./requirements/wordpress
+    restart: always
+      
+  wordpress: # php와 mysql을 사용하는 웹사이트
+    image: wordpress
+    container_name: wordpress
+    depends_on: # wordpress가 실행되기 전에 실행되어야 하는 서비스
+      - mariadb
+    build: requirements/wordpress
+    expose:
+      - "9000"
     volumes:
-      - ./data/wordpress:/var/www/html
+      - wordpress-volume:/var/www/html
     networks:
       - jun-network
-  mariadb:
-    build: ./requirements/mariadb
+    env_file:
+      - .env
+    restart: always
+
+  mariadb: # mysql과 호환되는 데이터베이스
+    image: mariadb
+    user: "999:999"
+    container_name: mariadb
+    build: requirements/mariadb
+    expose:
+      - "3306"
     volumes:
-      - ./data/database:/var/lib/mysql
+      - mariadb-volume:/var/lib/mysql
     networks:
       - jun-network
-networks:
+    env_file:
+      - .env
+    restart: always
+
+networks: # 컨테이너 간 통신을 위한 네트워크
   jun-network:
+    driver: bridge
+
+volumes: # 호스트의 디렉토리와 컨테이너의 디렉토리를 연결
+  wordpress-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind 
+      device: /home/junyojeo/data/wordpress
+  mariadb-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/junyojeo/data/database
