@@ -1,5 +1,5 @@
 # Debian 기반 이미지 사용
-FROM debian:buster
+FROM debian:buster-slim
 
 # 필요한 패키지 설치
 RUN apt-get update && apt-get upgrade -y && \
@@ -20,9 +20,9 @@ RUN curl -O https://wordpress.org/latest.tar.gz && \
     rm latest.tar.gz && \
     chown -R www-data:www-data /var/www/html/wordpress
 
-# install.sh 스크립트 복사 및 실행 권한 부여
-COPY ./tools/install.sh /install.sh
-RUN chmod +x /install.sh
+# init.sh 스크립트 복사 및 실행 권한 부여
+COPY ./tools/init.sh /init.sh
+RUN chmod +x /init.sh
 
 # php-fpm 설정 파일 복사
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
@@ -33,5 +33,5 @@ WORKDIR /var/www/html/wordpress
 # 포트 9000 열기
 EXPOSE 9000
 
-# 컨테이너 시작 시 install.sh 스크립트 실행
-ENTRYPOINT ["sh", "/install.sh", "daemon off;"]
+# PHP-FPM 실행
+CMD ["/usr/sbin/php-fpm7.3", "-F"]

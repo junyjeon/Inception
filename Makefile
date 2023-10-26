@@ -17,5 +17,6 @@ clean:
 re:
 	make down
 	make build
+	make up
 
 .PHONY: all build down re

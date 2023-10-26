@@ -21,7 +21,7 @@ services:
       - mariadb
     build: requirements/wordpress
     expose:
-      - "9000"
+      - '9000'
     volumes:
       - wordpress-volume:/var/www/html/wordpress
     networks:
@@ -32,11 +32,10 @@ services:
 
   mariadb: # mysql과 호환되는 데이터베이스
     image: mariadb
-    user: "999:999"
     container_name: mariadb
     build: requirements/mariadb
     expose:
-      - "3306"
+      - '3306'
     volumes:
       - mariadb-volume:/var/lib/mysql
     networks:
@@ -61,4 +60,4 @@ volumes: # 호스트의 디렉토리와 컨테이너의 디렉토리를 연결
     driver_opts:
       type: none
       o: bind
-      device: /home/junyojeo/data/database
+      device: /home/junyojeo/data/mariadb
