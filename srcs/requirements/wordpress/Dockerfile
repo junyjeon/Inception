@@ -16,9 +16,9 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 # WordPress 다운로드 및 설치
 RUN curl -O https://wordpress.org/latest.tar.gz && \
-    tar -xvzf latest.tar.gz --strip-components=1 -C /var/www/html/wordpress && \
+    tar -xvzf latest.tar.gz --strip-components=1 -C /var/www/html && \
     rm latest.tar.gz && \
-    chown -R www-data:www-data /var/www/html/wordpress
+    chown -R www-data:www-data /var/www/html
 
 # init.sh 스크립트 복사 및 실행 권한 부여
 COPY ./tools/init.sh /init.sh
@@ -28,10 +28,10 @@ RUN chmod +x /init.sh
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 # 작업 디렉토리 설정
-WORKDIR /var/www/html/wordpress
+WORKDIR /var/www/html
 
 # 포트 9000 열기
 EXPOSE 9000
 
 # PHP-FPM 실행
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
+ENTRYPOINT [ "sh", "/init.sh"]

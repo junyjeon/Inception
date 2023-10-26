@@ -54,10 +54,10 @@ volumes: # 호스트의 디렉토리와 컨테이너의 디렉토리를 연결
     driver_opts:
       type: none
       o: bind 
-      device: /home/junyojeo/data/wordpress
+      device: /home/${INTRA_ID}/data/wordpress
   mariadb-volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/junyojeo/data/mariadb
+      device: /home/${INTRA_ID}/data/mariadb
