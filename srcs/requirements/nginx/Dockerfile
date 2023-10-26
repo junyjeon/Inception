@@ -21,4 +21,7 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 443
 
 # NGINX를 실행합니다.
-ENTRYPOINT [ "sh", "/init.sh" ]
+ENTRYPOINT ["sh", "-c"]
+CMD /init.sh && nginx -g 'daemon off;'
+
+#openssl x509 -in /etc/ssl/junyojeo.42.fr.crt -text -noout
