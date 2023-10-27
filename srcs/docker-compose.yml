@@ -8,7 +8,7 @@ services:
       context: ./requirements/nginx
       dockerfile: ./Dockerfile
     depends_on:
-      - wordpress on_failure: restart
+      - wordpress
     volumes:
       - 'wp:/var/www/html'
     ports:
@@ -27,7 +27,7 @@ services:
       context: ./requirements/wordpress
       dockerfile: ./Dockerfile
     depends_on:
-      - mariadb on_failure: restart
+      - mariadb
     volumes:
       - 'wp:/var/www/html'
     networks:
