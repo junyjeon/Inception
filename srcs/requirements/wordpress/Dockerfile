@@ -17,9 +17,9 @@ RUN apk update && apk upgrade && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/bin/wp
 
-ADD config/www.conf /etc/php8/php-fpm.d/www.conf
-ADD config/wp-config.php /tmp/wp-config.php
-ADD script/wordpress.sh /tmp/wordpress.sh
+ADD conf/www.conf /etc/php8/php-fpm.d/www.conf
+ADD conf/wp-config.php /tmp/wp-config.php
+ADD tools/wordpress.sh /tmp/wordpress.sh
 
 WORKDIR /var/www/html
 

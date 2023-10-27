@@ -8,7 +8,7 @@ RUN apk update && \
     apk add curl iputils && \
     mkdir -p /etc/ssl
 
-ADD config/default.conf /etc/nginx/http.d/default.conf
-ADD script/nginx.sh /tmp/nginx.sh
+ADD conf/default.conf /etc/nginx/http.d/default.conf
+ADD tools/nginx.sh /tmp/nginx.sh
 
 CMD ["/bin/sh", "/tmp/nginx.sh"]

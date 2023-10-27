@@ -12,7 +12,7 @@ RUN apk update && \
     mkdir -p /var/lib/mysql && \
     chown -R mysql:mysql /var/lib/mysql
 
-ADD /script/mariadb.sh  /tmp/mariadb.sh
-ADD ./config/mariadb-server.conf /etc/my.cnf.d/mariadb-server.cnf
+ADD /tools/mariadb.sh  /tmp/mariadb.sh
+ADD ./conf/mariadb-server.conf /etc/my.cnf.d/mariadb-server.cnf
 
 CMD ["sh", "tmp/mariadb.sh"]
