@@ -1,20 +1,18 @@
-FROM        alpine:3.16
+FROM    alpine:3.16
 
-RUN         apk update && \
+EXPOSE  3306
+
+RUN apk update && \
     apk upgrade && \
     apk add openrc && \
     apk add mysql mysql-client && \
-    apk add curl
+    apk add curl && \
+    mkdir -p /run/mysqld && \
+    chown -R mysql:mysql /run/mysqld && \
+    mkdir -p /var/lib/mysql && \
+    chown -R mysql:mysql /var/lib/mysql
 
-EXPOSE      3306
+ADD /script/mariadb.sh  /tmp/mariadb.sh
+ADD ./config/mariadb-server.conf /etc/my.cnf.d/mariadb-server.cnf
 
-RUN			mkdir -p /run/mysqld
-RUN			chown -R mysql:mysql /run/mysqld
-
-RUN			mkdir -p /var/lib/mysql
-RUN			chown -R mysql:mysql /var/lib/mysql
-
-COPY        /script/mariadb.sh  /tmp/mariadb.sh
-ADD         ./config/mariadb-server.conf /etc/my.cnf.d/mariadb-server.cnf
-
-CMD         ["sh", "tmp/mariadb.sh"]
+CMD ["sh", "tmp/mariadb.sh"]

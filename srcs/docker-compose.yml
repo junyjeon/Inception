@@ -1,12 +1,14 @@
-version: '3'
+version: '3.8'
 
 services:
   nginx:
+    image: nginx
+    container_name: nginx
     build:
       context: ./requirements/nginx
       dockerfile: ./Dockerfile
     depends_on:
-      - wordpress
+      - wordpress on_failure: restart
     volumes:
       - 'wp:/var/www/html'
     ports:
@@ -18,12 +20,14 @@ services:
     restart: always
 
   wordpress:
+    image: wordpress
+    container_name: wordpress
     # Dockerfile이 있는 위치
     build:
       context: ./requirements/wordpress
       dockerfile: ./Dockerfile
     depends_on:
-      - mariadb
+      - mariadb on_failure: restart
     volumes:
       - 'wp:/var/www/html'
     networks:
@@ -33,6 +37,8 @@ services:
     restart: always
 
   mariadb:
+    image: mariadb
+    container_name: mariadb
     build:
       context: ./requirements/mariadb
       dockerfile: ./Dockerfile
@@ -61,3 +67,7 @@ volumes:
 networks:
   intra:
     driver: bridge
+
+# secrets:
+#   db_root_password:
+#     file: ./.env
