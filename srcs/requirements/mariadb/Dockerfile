@@ -1,17 +1,20 @@
-FROM debian:buster
+FROM        alpine:3.16
 
-EXPOSE 3306
+RUN         apk update && \
+    apk upgrade && \
+    apk add openrc && \
+    apk add mysql mysql-client && \
+    apk add curl
 
-COPY ./tools/install.sh /install.sh
+EXPOSE      3306
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y mariadb-server mariadb-client && \
-    mkdir -p /var/run/mysqld && \
-    chown -R mysql:mysql /var/run/mysqld && \
-    chmod +x install.sh && \
-    rm -f /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN			mkdir -p /run/mysqld
+RUN			chown -R mysql:mysql /run/mysqld
 
-COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+RUN			mkdir -p /var/lib/mysql
+RUN			chown -R mysql:mysql /var/lib/mysql
 
-ENTRYPOINT ["sh", "/install.sh"]
+COPY        /script/mariadb.sh  /tmp/mariadb.sh
+ADD         ./config/mariadb-server.conf /etc/my.cnf.d/mariadb-server.cnf
+
+CMD         ["sh", "tmp/mariadb.sh"]

@@ -1,63 +1,63 @@
-version: "3.8"
+version: '3'
+
 services:
-  nginx: # 웹 서버
-    image: nginx
-    container_name: nginx
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: ./Dockerfile
     depends_on:
       - wordpress
-    build: requirements/nginx
+    volumes:
+      - 'wp:/var/www/html'
     ports:
-      - "443:443"
-    volumes:
-      - wordpress-volume:/var/www/html/wordpress
+      - '443:443'
     networks:
-      - jun-network
+      - intra
+    env_file:
+      - .env
     restart: always
 
-  wordpress: # php와 mysql을 사용하는 웹사이트
-    image: wordpress
-    container_name: wordpress
-    depends_on: # wordpress가 실행되기 전에 실행되어야 하는 서비스
+  wordpress:
+    # Dockerfile이 있는 위치
+    build:
+      context: ./requirements/wordpress
+      dockerfile: ./Dockerfile
+    depends_on:
       - mariadb
-    build: requirements/wordpress
-    expose:
-      - "9000"
     volumes:
-      - wordpress-volume:/var/www/html/wordpress
+      - 'wp:/var/www/html'
     networks:
-      - jun-network
+      - intra
     env_file:
       - .env
     restart: always
 
-  mariadb: # mysql과 호환되는 데이터베이스
-    image: mariadb
-    container_name: mariadb
-    build: requirements/mariadb
-    expose:
-      - "3306"
-    volumes:
-      - mariadb-volume:/var/lib/mysql
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: ./Dockerfile
     networks:
-      - jun-network
+      - intra
+    volumes:
+      - 'db:/var/lib/mysql'
     env_file:
       - .env
     restart: always
 
-networks: # 컨테이너 간 통신을 위한 네트워크
-  jun-network:
+volumes:
+  wp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '$HOME/data/wordpress'
+  db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '$HOME/data/mariadb'
+
+networks:
+  intra:
     driver: bridge
-
-volumes: # 호스트의 디렉토리와 컨테이너의 디렉토리를 연결
-  wordpress-volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/${INTRA_ID}/data/wordpress
-  mariadb-volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/${INTRA_ID}/data/mariadb

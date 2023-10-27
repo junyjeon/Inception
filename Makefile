@@ -1,29 +1,26 @@
-INTRA_ID=junyojeo
-DB_VOLUME=/home/${INTRA_ID}/data/mariadb
-WORDPRESS_VOLUME=/home/${INTRA_ID}/data/wordpress
+DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE_FILE = ./srcs/docker-compose.yml
 
-all: build up
-
-build:
-	sudo mkdir -p ${DB_VOLUME}
-	sudo mkdir -p ${WORDPRESS_VOLUME}
-	sudo chown -R junyojeo:junyojeo /home/junyojeo/data
-	sudo docker build -t nginx:1.24.0 srcs/requirements/nginx
-	sudo docker build -t wordpress:6.3.2 srcs/requirements/wordpress
-	sudo docker build -t mariadb:11.1.2 srcs/requirements/mariadb
-
-up:
-	sudo docker compose -f srcs/docker-compose.yml up -d
+all:
+	mkdir -p ${HOME}/data/wordpress
+	mkdir -p ${HOME}/data/mariadb
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up --build
 
 down:
-	sudo docker compose -f srcs/docker-compose.yml down
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
+
+up:
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up
 
 clean:
-	sudo docker compose -f srcs/docker-compose.yml down --rmi all
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --rmi all --volumes
+	
+fclean:
+	make clean
+	rm -rf ${HOME}/data
 
 re:
-	make down
-	make build
-	make up
+	make fclean
+	make all
 
-.PHONY: all build down re
+.PHONY: all clean fclean re
