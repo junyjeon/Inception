@@ -17,12 +17,11 @@ services:
       - intra
     env_file:
       - .env
-    restart: always
+    restart: on-failure
 
   wordpress:
     image: wordpress
     container_name: wordpress
-    # Dockerfile이 있는 위치
     build:
       context: ./requirements/wordpress
       dockerfile: ./Dockerfile
@@ -34,7 +33,7 @@ services:
       - intra
     env_file:
       - .env
-    restart: always
+    restart: on-failure
 
   mariadb:
     image: mariadb
@@ -48,7 +47,7 @@ services:
       - 'db:/var/lib/mysql'
     env_file:
       - .env
-    restart: always
+    restart: on-failure
 
 volumes:
   wp:
