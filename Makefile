@@ -1,4 +1,4 @@
-DOCKER_COMPOSE = docker compose
+DOCKER_COMPOSE = docker-compose
 DOCKER_COMPOSE_FILE = ./srcs/docker-compose.yml
 
 all:
@@ -13,8 +13,12 @@ up:
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up
 
 clean:
-	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --rmi all --volumes
-	
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
+	docker container prune -f
+	docker network prune -f
+	docker image prune -a -f
+	docker volume prune -f
+
 fclean:
 	make clean
 	rm -rf ${HOME}/data

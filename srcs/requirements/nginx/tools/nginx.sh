@@ -3,7 +3,7 @@ openssl req -x509 -nodes \
         -newkey rsa:2048 \
         -keyout /etc/ssl/nginx-selfsigned.key \
         -out /etc/ssl/nginx-selfsigned.crt \
-        -subj "/C=KR/ST=Seoul/O=42Seoul/OU=wochae/CN=inception/"
+        -subj "/C=KR/ST=Seoul/O=42Seoul/OU=Cadet/CN=junyojeo.42.fr/"
     
 chown nginx /etc/ssl/nginx-selfsigned.crt    
 chown nginx /etc/ssl/nginx-selfsigned.key    
