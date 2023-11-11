@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
 EXPOSE 9000
 
@@ -18,10 +18,10 @@ RUN apk update && apk upgrade && \
     mv wp-cli.phar /usr/bin/wp
 
 ADD conf/www.conf /etc/php8/php-fpm.d/www.conf
-ADD conf/wp-config.php /tmp/wp-config.php
-ADD tools/wordpress.sh /tmp/wordpress.sh
+ADD conf/wp-config.php /usr/bin/wp-config.php
+ADD tools/wordpress.sh /usr/bin/wordpress.sh
 
 WORKDIR /var/www/html
 
-CMD ["/bin/sh", "/tmp/wordpress.sh"]
+CMD ["/bin/sh", "/usr/bin/wordpress.sh"]
 

@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
 EXPOSE 443
 
@@ -9,6 +9,6 @@ RUN apk update && \
     mkdir -p /etc/ssl
 
 ADD conf/default.conf /etc/nginx/http.d/default.conf
-ADD tools/nginx.sh /tmp/nginx.sh
+ADD tools/nginx.sh /usr/bin/nginx.sh
 
-CMD ["/bin/sh", "/tmp/nginx.sh"]
+CMD ["/bin/sh", "/usr/bin/nginx.sh"]
