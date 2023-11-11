@@ -1,4 +1,4 @@
-FROM alpine:3.17
+FROM alpine:3.16
 
 EXPOSE 9000
 
@@ -15,10 +15,10 @@ RUN apk update && apk upgrade && \
     apk add curl iputils && \
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/bin/wp
+    mv wp-cli.phar /usr/bin/wp && \
 
-ADD conf/www.conf /etc/php8/php-fpm.d/www.conf
-ADD conf/wp-config.php /usr/bin/wp-config.php
+    ADD conf/www.conf /etc/php8/php-fpm.d/www.conf
+ADD conf/wp-config.php /tmp/wp-config.php
 ADD tools/wordpress.sh /usr/bin/wordpress.sh
 
 WORKDIR /var/www/html

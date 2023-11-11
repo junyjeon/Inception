@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-EXPOSE  3306
+EXPOSE 3306
 
 RUN apk update && \
     apk upgrade && \

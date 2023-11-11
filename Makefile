@@ -13,7 +13,7 @@ up:
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up
 
 clean:
-	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --rmi all --volumes
 	docker container prune -f
 	docker network prune -f
 	docker image prune -a -f
@@ -21,7 +21,7 @@ clean:
 
 fclean:
 	make clean
-	rm -rf ${HOME}/data
+	sudo rm -rf ${HOME}/data
 
 re:
 	make fclean
