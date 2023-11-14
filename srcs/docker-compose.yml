@@ -5,8 +5,7 @@ services:
     image: nginx:1.24.0
     container_name: nginx
     build:
-      context: ./requirements/nginx
-      dockerfile: ./Dockerfile
+      context: requirements/nginx
     depends_on:
       - wordpress
     volumes:
@@ -23,8 +22,7 @@ services:
     image: wordpress
     container_name: wordpress
     build:
-      context: ./requirements/wordpress
-      dockerfile: ./Dockerfile
+      context: requirements/wordpress
     depends_on:
       - mariadb
     volumes:
@@ -39,8 +37,7 @@ services:
     image: mariadb
     container_name: mariadb
     build:
-      context: ./requirements/mariadb
-      dockerfile: ./Dockerfile
+      context: requirements/mariadb
     networks:
       - intra
     volumes:

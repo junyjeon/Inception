@@ -15,13 +15,12 @@ RUN apk update && apk upgrade && \
     apk add curl iputils && \
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/bin/wp && \
+    mv wp-cli.phar /usr/bin/wp
 
-    ADD conf/www.conf /etc/php8/php-fpm.d/www.conf
+ADD conf/www.conf /etc/php8/php-fpm.d/www.conf
 ADD conf/wp-config.php /tmp/wp-config.php
-ADD tools/wordpress.sh /usr/bin/wordpress.sh
+ADD tools/wordpress.sh /tmp/wordpress.sh
 
 WORKDIR /var/www/html
 
-CMD ["/bin/sh", "/usr/bin/wordpress.sh"]
-
+CMD ["/bin/sh", "/tmp/wordpress.sh"]
