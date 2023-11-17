@@ -8,4 +8,6 @@ openssl req -x509 -nodes \
 chown nginx /etc/ssl/private/nginx-selfsigned.key
 chown nginx /etc/ssl/certs/nginx-selfsigned.crt
 
+echo "Complete set nginx!!"
+
 exec nginx -g 'daemon off;';

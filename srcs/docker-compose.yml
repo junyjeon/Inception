@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx:
-    image: nginx:1.24.0
+    image: nginx
     container_name: nginx
     build:
       context: requirements/nginx
@@ -27,6 +27,8 @@ services:
       - mariadb
     volumes:
       - 'wp:/var/www/html'
+    ports:
+      - '9000:9000'
     networks:
       - intra
     env_file:
@@ -42,6 +44,8 @@ services:
       - intra
     volumes:
       - 'db:/var/lib/mysql'
+    ports:
+      - '3306:3306'
     env_file:
       - .env
     restart: on-failure
@@ -66,4 +70,10 @@ networks:
 
 # secrets:
 #   db_root_password:
-#     file: ./.env
+#     file: ./db_root_password.txt
+#   db_user_password:
+#     file: ./db_user_password.txt
+#   wordpress_admin_password:
+#     file: ./wordpress_admin_password.txt
+#   wordpress_user_password:
+#     file: ./wordpress_user_password.txt

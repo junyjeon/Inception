@@ -8,22 +8,22 @@ else
   
   wp core download --allow-root --path=/var/www/html
 
-  wp	core install \
+  wp core install \
       --allow-root \
       --path=${WORDPRESS_PATH} \
       --url=${WORDPRESS_URL} \
       --title=Inception \
       --admin_user=${WORDPRESS_ADMIN} \
-      --admin_password=${WORDPRESS_ADMIN_PASSWORD} \
+      --admin_password=${WORDPRESS_ADMIN_PW} \
       --admin_email=${WORDPRESS_EMAIL} \
       --skip-email
 
   wp user create  ${WORDPRESS_USER} \
                   ${WORDPRESS_USER_EMAIL} \
-                  --user_pass=${WORDPRESS_USER_PASSWORD} \
+                  --user_pass=${WORDPRESS_USER_PW} \
                   --role=author
 
-  echo "Download and set new WordPress!!"
+  echo "Complete set new WordPress!!"
 fi
 
 /usr/sbin/php-fpm8 -F -R
