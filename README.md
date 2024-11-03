@@ -412,6 +412,7 @@ RUN apk update && apk add --no-cache \
     php81-dom \
     php81-exif \
     php81-fileinfo \
+```
 
 ## 🌐 네트워크 구성
 > Docker 네트워크 설정과 컨테이너 간 통신 구성을 설명합니다.
